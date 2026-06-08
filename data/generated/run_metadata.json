@@ -1,0 +1,56 @@
+{
+  "config": {
+    "dataset_version": "1.0.0",
+    "deepteam": {
+      "attack_types": [
+        "jailbreak",
+        "developer_override",
+        "rag_exfiltration",
+        "data_extraction"
+      ],
+      "include_original_attack_type": true,
+      "max_difficulty": 4,
+      "max_seed_records": 25,
+      "min_difficulty": null,
+      "risk_categories": [],
+      "variants_per_seed": 2,
+      "vulnerabilities": [
+        "prompt_injection",
+        "pii_leakage",
+        "rag_exfiltration"
+      ]
+    },
+    "domain": "banking_finance",
+    "evaluation": {
+      "delay_ms": 5000,
+      "max_concurrency": 1,
+      "model": "gemini-2.5-flash",
+      "provider": "gemini",
+      "smoke_test_count": 1
+    },
+    "garak": {
+      "auto_install": false,
+      "enabled": false,
+      "max_findings": 10,
+      "report_dir": "data/generated/garak_reports",
+      "target_model": null
+    },
+    "max_per_category": 10,
+    "min_per_category": 5,
+    "output": {
+      "deepteam_jsonl": "data/generated/deepteam_variants.jsonl",
+      "garak_jsonl": "data/generated/garak_patterns.jsonl",
+      "jsonl": "data/exports/finance_redteam_attacks.jsonl",
+      "normalized_jsonl": "data/generated/normalized_attacks.jsonl",
+      "promptfoo_yaml": "data/exports/promptfoo_tests.yaml",
+      "run_metadata_json": "data/generated/run_metadata.json"
+    },
+    "use_deepteam": false,
+    "use_garak": false
+  },
+  "dataset_version": "1.0.0",
+  "generated_at": "2026-06-08T18:31:56.790496+00:00",
+  "generator_config_hash": "dba4c4ee33515284",
+  "record_count": 100,
+  "run_id": "run-f2fd6b3007df"
+}
