@@ -29,10 +29,26 @@
       "smoke_test_count": 1
     },
     "garak": {
+      "attack_types": [],
       "auto_install": false,
       "enabled": false,
+      "include_parsed_findings": true,
+      "include_static_patterns": true,
+      "max_difficulty": 5,
       "max_findings": 10,
+      "max_patterns": 20,
+      "min_difficulty": null,
+      "probe_families": [
+        "hallucination",
+        "data_leakage",
+        "prompt_injection",
+        "jailbreak",
+        "encoding_obfuscation",
+        "rag_exfiltration",
+        "tool_misuse"
+      ],
       "report_dir": "data/generated/garak_reports",
+      "risk_categories": [],
       "target_model": null
     },
     "max_per_category": 10,
@@ -49,8 +65,8 @@
     "use_garak": false
   },
   "dataset_version": "1.0.0",
-  "generated_at": "2026-06-08T18:31:56.790496+00:00",
-  "generator_config_hash": "dba4c4ee33515284",
+  "generated_at": "2026-06-08T19:07:41.808135+00:00",
+  "generator_config_hash": "dd33d2202330548d",
   "record_count": 100,
-  "run_id": "run-f2fd6b3007df"
+  "run_id": "run-ec62a18f6a87"
 }

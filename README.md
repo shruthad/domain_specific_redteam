@@ -125,6 +125,15 @@ garak:
   enabled: false
   target_model: null
   report_dir: data/generated/garak_reports
+  probe_families:
+    - hallucination
+    - data_leakage
+    - prompt_injection
+    - rag_exfiltration
+    - tool_misuse
+  attack_types: []
+  risk_categories: []
+  max_patterns: 20
 ```
 
 This config is hashed for every run. The hash is written into each JSONL record as `generator_config_hash`.
@@ -209,9 +218,42 @@ DeepTeam-generated records include `source_metadata` describing the selected vul
 
 ## Garak Scans
 
-Garak is used for scanner-style coverage expansion around hallucination, data leakage, prompt injection, jailbreaks, misinformation, toxicity, and encoding or obfuscation attacks. The adapter can call Garak as a subprocess when installed and stores reports under `data/generated/garak_reports/`. If Garak is unavailable, the default pipeline still works.
+Garak is used for scanner-style coverage expansion around hallucination, data leakage, prompt injection, jailbreaks, misinformation, toxicity, RAG exfiltration, tool misuse, resource abuse, and encoding or obfuscation attacks. The adapter can call Garak as a subprocess when installed and stores reports under `data/generated/garak_reports/`. If Garak is unavailable, the pipeline can still generate local Garak-style scanner coverage patterns from safe templates.
 
 Garak is treated as a coverage discovery layer, not the source of truth for the curated benchmark. The adapter stores report paths in `source_metadata`, parses JSON/JSONL reports when available, and converts selected coverage patterns into safe defensive evaluation records.
+
+You can target specific Garak probe families and attack styles:
+
+```bash
+python -m finance_redteam.cli run-garak \
+  --probe-families rag_exfiltration \
+  --probe-families tool_misuse \
+  --attack-types rag_exfiltration \
+  --attack-types tool_misuse \
+  --max-patterns 10
+```
+
+Supported probe-family selectors include:
+
+```text
+hallucination
+misinformation
+data_leakage
+prompt_injection
+jailbreak
+encoding_obfuscation
+rag_exfiltration
+tool_misuse
+model_extraction
+toxicity
+dos_resource_abuse
+```
+
+For config-driven runs, edit the `garak` block in `configs/finance_benchmark.yaml` and run:
+
+```bash
+python -m finance_redteam.cli build-from-config configs/finance_benchmark.yaml
+```
 
 ## Dataset Schema
 

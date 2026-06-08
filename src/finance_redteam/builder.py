@@ -59,6 +59,7 @@ def build_records_from_config(config: BenchmarkConfig) -> BuildResult:
             auto_install=config.garak.auto_install,
             report_dir=config.garak.report_dir,
             max_findings=config.garak.max_findings,
+            expansion_config=config.garak.expansion_config(),
         )
     records.extend(garak_records)
 

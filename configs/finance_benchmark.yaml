@@ -31,6 +31,21 @@ garak:
   target_model: null
   max_findings: 10
   report_dir: data/generated/garak_reports
+  probe_families:
+    - hallucination
+    - data_leakage
+    - prompt_injection
+    - jailbreak
+    - encoding_obfuscation
+    - rag_exfiltration
+    - tool_misuse
+  attack_types: []
+  risk_categories: []
+  min_difficulty: null
+  max_difficulty: 5
+  max_patterns: 20
+  include_static_patterns: true
+  include_parsed_findings: true
 
 evaluation:
   provider: gemini

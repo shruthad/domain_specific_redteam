@@ -9,6 +9,7 @@ import yaml
 from pydantic import BaseModel, ConfigDict, Field
 
 from .deepteam_adapter import DeepTeamExpansionConfig
+from .garak_adapter import GarakExpansionConfig
 
 
 DEFAULT_CONFIG_PATH = Path("configs/finance_benchmark.yaml")
@@ -22,6 +23,26 @@ class GarakConfig(BaseModel):
     target_model: str | None = None
     max_findings: int = 10
     report_dir: Path = Path("data/generated/garak_reports")
+    probe_families: list[str] = Field(default_factory=list)
+    attack_types: list[str] = Field(default_factory=list)
+    risk_categories: list[str] = Field(default_factory=list)
+    min_difficulty: int | None = None
+    max_difficulty: int | None = None
+    max_patterns: int = 20
+    include_static_patterns: bool = True
+    include_parsed_findings: bool = True
+
+    def expansion_config(self) -> GarakExpansionConfig:
+        return GarakExpansionConfig(
+            probe_families=self.probe_families,
+            attack_types=self.attack_types,
+            risk_categories=self.risk_categories,
+            min_difficulty=self.min_difficulty,
+            max_difficulty=self.max_difficulty,
+            max_patterns=self.max_patterns,
+            include_static_patterns=self.include_static_patterns,
+            include_parsed_findings=self.include_parsed_findings,
+        )
 
 
 class EvaluationConfig(BaseModel):

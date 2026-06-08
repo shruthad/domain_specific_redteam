@@ -10,7 +10,7 @@ from .config import BenchmarkConfig, DEFAULT_CONFIG_PATH, OutputConfig, load_ben
 from .deduplicator import deduplicate_records
 from .deepteam_adapter import DeepTeamExpansionConfig, generate_deepteam_variants
 from .exporters import export_jsonl, load_jsonl
-from .garak_adapter import run_garak_scan
+from .garak_adapter import GarakExpansionConfig, run_garak_scan
 from .local_generator import generate_local_variants, seeds_to_records
 from .normalizer import normalize_record
 from .promptfoo_exporter import export_promptfoo
@@ -125,8 +125,26 @@ def expand_deepteam(
 
 
 @app.command("run-garak")
-def run_garak(target_model: str | None = None) -> None:
-    records = run_garak_scan(target_model)
+def run_garak(
+    target_model: str | None = None,
+    probe_families: list[str] | None = typer.Option(None),
+    attack_types: list[str] | None = typer.Option(None),
+    risk_categories: list[str] | None = typer.Option(None),
+    min_difficulty: int | None = None,
+    max_difficulty: int | None = None,
+    max_patterns: int = 20,
+) -> None:
+    records = run_garak_scan(
+        target_model=target_model,
+        expansion_config=GarakExpansionConfig(
+            probe_families=probe_families or [],
+            attack_types=attack_types or [],
+            risk_categories=risk_categories or [],
+            min_difficulty=min_difficulty,
+            max_difficulty=max_difficulty,
+            max_patterns=max_patterns,
+        ),
+    )
     export_jsonl(records, Path("data/generated/garak_patterns.jsonl"))
     typer.echo(f"Wrote {len(records)} Garak-derived patterns")
 
